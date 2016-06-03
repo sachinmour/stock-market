@@ -4,8 +4,7 @@ var path = require('path');
 var express = require('express'),
     server_routes = require("./app/server_routes/routes"),
     mongoose = require("mongoose"),
-    bodyParser = require("body-parser"),
-    morgan = require('morgan');
+    bodyParser = require("body-parser");
     
 var app = express();
 mongoose.connect(process.env.MONGODB_URI);
@@ -24,6 +23,7 @@ if(process.env.NODE_ENV !== 'production') {
   var webpack = require('webpack');
   var config = require('./webpack.config.js');
   var compiler = webpack(config);
+  var morgan = require('morgan');
   app.use(morgan('dev'));
   app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
   app.use(webpackHotMiddleware(compiler));
