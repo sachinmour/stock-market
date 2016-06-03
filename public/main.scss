@@ -160,4 +160,13 @@ div#content {
             }
         }
     }
+    div#contact {
+        display: flex;
+        margin-top: 50px;
+        justify-content: center;
+        a {
+            text-decoration: none;
+            color: white;
+        }
+    }
 }

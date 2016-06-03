@@ -1,11 +1,13 @@
 module.exports = {
   
   destroyChart() {
-      document.getElementById('chart').highcharts().destroy();
+      if (window.globalChart) {
+          window.globalChart.destroy();
+      }
   },
     
   createChart(seriesOptions) {
-    new Highcharts.StockChart({
+    window.globalChart = new Highcharts.StockChart({
 
     	chart: {
     		renderTo: document.getElementById('chart')

@@ -1,11 +1,11 @@
 require('babel-core/register');
 var path = require('path');
-require('dotenv').config();
 
 var express = require('express'),
     server_routes = require("./app/server_routes/routes"),
     mongoose = require("mongoose"),
-    bodyParser = require("body-parser");
+    bodyParser = require("body-parser"),
+    morgan = require('morgan');
     
 var app = express();
 mongoose.connect(process.env.MONGODB_URI);
@@ -22,9 +22,9 @@ if(process.env.NODE_ENV !== 'production') {
   var webpackDevMiddleware = require('webpack-dev-middleware');
   var webpackHotMiddleware = require('webpack-hot-middleware');
   var webpack = require('webpack');
-  var config = require('./webpack.config');
+  var config = require('./webpack.config.js');
   var compiler = webpack(config);
-  
+  app.use(morgan('dev'));
   app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
   app.use(webpackHotMiddleware(compiler));
 }
@@ -33,10 +33,28 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 server_routes(app);
 
-app.listen(PORT, function(error) {
+// var server = app.listen(PORT, function(error) {
+//   if (error) {
+//     console.error(error);
+//   } else {
+//     console.info("==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.", PORT, PORT);
+//   }
+// });
+
+
+var server  = require('http').createServer(app);
+var io      = require('socket.io').listen(server);
+
+server.listen(PORT, function(error) {
   if (error) {
     console.error(error);
   } else {
     console.info("==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.", PORT, PORT);
   }
+});
+
+var socketHandler = require("./app/utils/socketHandler");
+
+io.on("connection", function(socket) {
+  socketHandler(socket, io);
 });
