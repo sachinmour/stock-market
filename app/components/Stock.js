@@ -1,5 +1,5 @@
 import React from "react";
-var socket = require('socket.io-client').connect('https://clementine-sachinmour.c9users.io/');
+var socket = require('socket.io-client').connect(process.env.ROOT_URL);
 
 class Stock extends React.Component{
   

@@ -2,7 +2,7 @@ import React from "react";
 import ChartHandler from "../utils/chartHandler";
 import axios from "axios";
 import Stock from "./Stock";
-var socket = require('socket.io-client').connect('https://clementine-sachinmour.c9users.io/');
+var socket = require('socket.io-client').connect(process.env.ROOT_URL);
 
 class Chart extends React.Component{
   
