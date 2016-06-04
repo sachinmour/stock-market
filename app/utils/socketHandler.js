@@ -22,7 +22,7 @@ module.exports = function(socket, io) {
             }
           })
           .catch(function(response) {
-            socket.emit("stockAdded", {error: "Something went wrong."});
+            socket.emit("stockAdded", {error: "Invalid Code"});
           });
         }
       });

@@ -52,7 +52,7 @@ class Chart extends React.Component{
           _this.setState({error: response.error});
         } else {
           _this.setState({
-            stocks: _this.state.stocks.find(function(stock){
+            stocks: _this.state.stocks.filter(function(stock){
               return stock.code !== response.code;
             }) || []
           });
@@ -69,7 +69,13 @@ class Chart extends React.Component{
     handleSubmit(e) {
       if (e) e.preventDefault();
       var _this = this;
+      _this.setState({
+        error: ''
+      });
       socket.emit('addStock', _this.state.addStock);
+      _this.setState({
+        addStock: ''
+      });
     }
     
     handleChange(e) {
@@ -81,8 +87,8 @@ class Chart extends React.Component{
   render() {
     
     var stockHtml = this.state.stocks.map(function(stock) {
-        return <Stock code={stock.code} name={stock.name} key={stock.code}/>;
-      });
+      return <Stock code={stock.code} name={stock.name} key={stock.code}/>;
+    });
     
     return (
       <div id="stocks">
